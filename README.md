@@ -4,27 +4,28 @@
 
 Dự án này sử dụng **YOLOv11** để phát hiện và đếm các **phụ kiện công nghiệp** từ hình ảnh. Hệ thống được chia làm hai phần:
 
-- 🧠 **Yolo**: Sử dụng YOLOv11 để huấn luyện và phát hiện phụ kiện.
+- 🧠 **Model**: Sử dụng YOLOv11 để huấn luyện và phát hiện phụ kiện.
 - 🌐 **Web**: Ứng dụng web xây dựng bằng **Next.js** (frontend) và **NestJS** (backend) để tải ảnh và hiển thị kết quả.
 
 ---
 
 ## 📁 Cấu trúc thư mục
 
-.
+```
 ├── model/ # YOLOv11 model, training and inference scripts
+│ ├── train/ # train mô hình với google colab
+│ └── detect/ # sử dụng mô hình đã được train
 ├── web/
 │ ├── frontend/ # Next.js frontend
 │ └── backend/ # NestJS backend API
-├── data/ # Dữ liệu huấn luyện (tùy chọn)
 └── README.md
-
+```
 
 ---
 
 ## 🚀 Tính năng chính
 
-- Phát hiện và đếm các phụ kiện công nghiệp từ ảnh hoặc video
+- Phát hiện và đếm các phụ kiện công nghiệp từ ảnh
 - Giao diện web trực quan, dễ sử dụng
 - Hệ thống backend hỗ trợ phân tích ảnh và quản lý dữ liệu
 - Có thể mở rộng với nhiều loại phụ kiện khác nhau
@@ -43,7 +44,7 @@ Dự án này sử dụng **YOLOv11** để phát hiện và đếm các **phụ
 ### 2. Cài đặt YOLOv11 (Model)
 
 ```bash
-cd yolo
+cd model
 pip install -r requirements.txt
 # Chạy thử nghiệm
 python detect/model.py --input test.jpg --type washer
@@ -65,6 +66,9 @@ npm run start:dev
 # API sẽ chạy tại http://localhost:3000
 ```
 ## Demo
+
+![Giao diện web](https://github.com/user-attachments/assets/b09d710a-592b-4fbf-a917-5e21b96efb83)
+![Web khi detect object](https://github.com/user-attachments/assets/59787d8d-23fb-4cf0-950f-0c8d4cf0e9c7)
 
 
 
