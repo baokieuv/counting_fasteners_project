@@ -1,0 +1,17 @@
+# YOLO - Thư viện cho model nhận diện vật thể
+ultralytics
+
+# OpenCV - Xử lý ảnh, video
+opencv-python
+
+# NumPy - Tính toán ma trận, mảng số học
+numpy
+
+# ONNX Runtime - Chạy mô hình đã convert sang định dạng ONNX
+onnxruntime
+
+# mean_average_precision - Tính mAP cho đánh giá mô hình
+mean_average_precision
+
+# matplotlib - Vẽ biểu đồ
+matplotlib
