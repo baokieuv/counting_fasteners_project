@@ -67,6 +67,8 @@ npm run start:dev
 ```
 ## Demo
 
+Web đã được triển khai tại: https://kvbhust.site
+
 ![Giao diện web](https://github.com/user-attachments/assets/b09d710a-592b-4fbf-a917-5e21b96efb83)
 ![Web khi detect object](https://github.com/user-attachments/assets/59787d8d-23fb-4cf0-950f-0c8d4cf0e9c7)
 
