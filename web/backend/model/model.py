@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 import onnxruntime as ort
 from typing import List
-import argparse
 from datetime import datetime
 import logging
 
@@ -120,13 +119,13 @@ def detect_and_save(model: Yolov11_Onnx, image_path, type, output_dir="uploads")
 
     detections = model._postprocessing(output)
     result_frame, numObjects = model.drawbox(frame, detections)
-    
-    
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
         
-    results_dir = os.path.join(output_dir, "results")
-    labels_dir = os.path.join(output_dir, "labels")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    upload_dir = os.path.join(os.path.dirname(base_dir), output_dir)
+    
+    results_dir = os.path.join(upload_dir, "results")
+    labels_dir = os.path.join(upload_dir, "labels")
+    
     os.makedirs(results_dir, exist_ok=True)
     os.makedirs(labels_dir, exist_ok=True)
     
@@ -146,37 +145,3 @@ def detect_and_save(model: Yolov11_Onnx, image_path, type, output_dir="uploads")
             f.write(f"{int(x_min)} {int(y_min)} {int(x_max)} {int(y_max)}\n")
     
     return [os.path.join("uploads", "results", image_filename), os.path.join("uploads", "labels", label_filename), numObjects]
-       
-def main():
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    washer_model_path = os.path.join(BASE_DIR, "best.onnx")
-    model: Yolov11_Onnx
-    
-    parser = argparse.ArgumentParser(description="YoloV11 Object Detection")
-    parser.add_argument("--input", type=str, required=True, help="Đường dẫn đến ảnh đầu vào")
-    parser.add_argument("--type", type=str, required=True, help="Loại object")
-    args = parser.parse_args()
-    
-    try:
-        if args.type == "washer":
-            model = Yolov11_Onnx(washer_model_path, label_list=["Washer"])
-        else:
-            logging.error(f"Unsupported object type: {args.type}")
-            print(f"Error: Unsupported object type: {args.type}")
-            return
-    except Exception as e:
-        logging.error(f"Failed to load model: {e}")
-        return
-    
-    try:
-        output_path, label_path, num = detect_and_save(model, args.input, args.type)
-        print(f"Save: {output_path}")
-        print(f"Label: {label_path}")
-        print(f"Num: {num}")
-    except Exception as e:
-        logging.error(f"Error processing image: {e}")
-        print(f"Error: {e}")
-        
-    
-if __name__ == "__main__":
-    main()
