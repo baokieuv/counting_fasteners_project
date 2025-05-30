@@ -13,6 +13,7 @@ Phần **Web UI** cho hệ thống đếm phụ kiện công nghiệp sử dụn
 - Gửi ảnh từ frontend tới API `/api/detect` để xử lý.
 - Gọi NestJS backend để chạy mô hình và nhận kết quả.
 - Trả lại kết quả phát hiện và hiển thị lên giao diện.
+- Backend trao đổi dữ liệu với model thông qua giao tiếp socket
 
 ---
 
