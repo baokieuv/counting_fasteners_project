@@ -3,7 +3,7 @@
 ## 📌 Version 2 - Updates & New Features
 
 - ✅ Thay đổi cách thức giao tiếp giữa backend và model
-- 🧠 Model chạy dịch vụ ở 1 port -> chỉ cần load model duy nhất 1 lần
+- 🧠 Model chạy dịch vụ ở 1 port (socket) -> chỉ cần load model duy nhất 1 lần
 - 🛠  Tối ưu code
 
 ## 🧠 Mục tiêu dự án
