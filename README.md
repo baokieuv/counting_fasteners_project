@@ -1,5 +1,11 @@
 # 📦 Counting fasteners project with YOLOv11
 
+## 📌 Version 2 - Updates & New Features
+
+- ✅ Thay đổi cách thức giao tiếp giữa backend và model
+- 🧠 Model chạy dịch vụ ở 1 port -> chỉ cần load model duy nhất 1 lần
+- 🛠  Tối ưu code
+
 ## 🧠 Mục tiêu dự án
 
 Dự án này sử dụng **YOLOv11** để phát hiện và đếm các **phụ kiện công nghiệp** từ hình ảnh. Hệ thống được chia làm hai phần:
