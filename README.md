@@ -41,8 +41,14 @@ Dự án này sử dụng **YOLOv11** để phát hiện và đếm các **phụ
 - Node.js 18+
 
 ---
+### 2. Clone project
 
-### 2. Cài đặt YOLOv11 (Model)
+```bash
+git clone https://github.com/baokieuv/counting_fasteners_project.git
+```
+---
+
+### 3. Cài đặt YOLOv11 (Model)
 
 ```bash
 cd model
@@ -50,7 +56,7 @@ pip install -r requirements.txt
 # Chạy thử nghiệm
 python detect/model.py --input test.jpg --type washer
 ```
-### 3. Cài đặt giao diện người dùng (Next.js)
+### 4. Cài đặt Web frontend (Next.js)
 
 ```bash
 cd web/frontend
@@ -58,7 +64,7 @@ npm install
 npm run dev
 # Ứng dụng frontend sẽ chạy tại http://localhost:3001
 ```
-### 3.  Cài đặt backend API (NestJS)
+### 5.  Cài đặt backend API (NestJS)
 
 ```bash
 cd web/backend
