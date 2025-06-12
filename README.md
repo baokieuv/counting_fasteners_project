@@ -4,7 +4,7 @@
 
 Dự án này sử dụng **YOLOv11** để phát hiện và đếm các **phụ kiện công nghiệp** từ hình ảnh. Hệ thống được chia làm hai phần:
 
-- 🧠 **Model**: Sử dụng YOLOv11 để huấn luyện và phát hiện phụ kiện.
+- 🧠 **Model**: Sử dụng YOLOv11 để huấn luyện và phát hiện phụ kiện, sử dụng ONNX giúp việc xử lý nhanh hơn.
 - 🌐 **Web**: Ứng dụng web xây dựng bằng **Next.js** (frontend) và **NestJS** (backend) để tải ảnh và hiển thị kết quả.
 
 ---
@@ -29,6 +29,7 @@ Dự án này sử dụng **YOLOv11** để phát hiện và đếm các **phụ
 - Giao diện web trực quan, dễ sử dụng
 - Hệ thống backend hỗ trợ phân tích ảnh và quản lý dữ liệu
 - Có thể mở rộng với nhiều loại phụ kiện khác nhau
+- Xử lý request nhanh chóng với ONNX
 
 ---
 
