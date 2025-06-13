@@ -66,11 +66,12 @@ export default function Home() {
             style={{color:'black'}}
           >
             <option value="washer">Washer</option>
-            <option value="dryer">Dryer</option>
-            <option value="dishwasher">Dishwasher</option>
+            <option value="screw">Screw</option>
+            <option value="nut">Nut</option>
           </select>
 
           <button
+            id="myButton"
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
             style={{cursor: 'pointer'}}
@@ -79,6 +80,7 @@ export default function Home() {
           </button>
 
           <div className="text-sm text-gray-500 text-center"><i>Các định dạng được hỗ trợ: PNG, JPG và JPEG.</i></div>
+          <div className="text-sm text-gray-500 text-center"><i>Hãy để ảnh kích thước 640x640 để được kết quả tốt nhất.</i></div>
         </form>
 
         {imageUrl && (
