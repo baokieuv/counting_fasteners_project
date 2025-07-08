@@ -12,9 +12,11 @@ const execPromise = util.promisify(exec);
 export class AppService {
   
   async runDetection(filePath: string, type: string): Promise<{
-      ndet: number;
-      image: string;
-      labelUrl: string;
+      ndet: number | null;
+      image: string | null;
+      labelUrl: string | null;
+      message: string | null;
+      error: any;
     }>{
     // const absPath =  `D:\\code\\projectTest\\web\\test-express\\${filePath.replace(/\//g, '\\')}`;
     console.log(filePath);
@@ -36,7 +38,7 @@ export class AppService {
   
       const labelUrl = labelLine ? labelLine.replace("Label: ", "").replace(/\\/g, "/") : null;
       const imageUrl = urlLine ? urlLine.replace("Save: ", "").replace(/\\/g, "/") : null;
-      const ndet = numLine ? parseInt(numLine.replace("Num: ", "")) : null;
+      const ndet: number = numLine ? parseInt(numLine.replace("Num: ", "")) : 0;
       // console.log(`Detect: ${imageUrl}, Num: ${ndet}`)
 
       const out_path = imageUrl ? path.join(path.resolve(__dirname, '..'), imageUrl?.trim()) : '';
@@ -55,14 +57,22 @@ export class AppService {
       const mime = ext === '.png' ? 'image/png' : 'image/jpeg';
 
       return {
-        ndet,
+        ndet: ndet,
         image: `data:${mime};base64,${base64}`,
         labelUrl,
+        message: 'done',
+        error: null
       };
       
     } catch(error){
       console.error("Lỗi xử lý: ", error);
-      return {message: 'Lỗi xử lý ảnh', error};
+      return {
+        ndet: null,
+        image: null,
+        labelUrl: null,
+        message: 'lỗi xử lý ảnh',
+        error
+      };
     }
   }
 }
