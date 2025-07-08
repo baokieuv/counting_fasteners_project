@@ -10,11 +10,12 @@ const execPromise = util.promisify(exec);
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
-  }
-
-  async runDetection(filePath: string, type: string){
+  
+  async runDetection(filePath: string, type: string): Promise<{
+      ndet: number;
+      image: string;
+      labelUrl: string;
+    }>{
     // const absPath =  `D:\\code\\projectTest\\web\\test-express\\${filePath.replace(/\//g, '\\')}`;
     console.log(filePath);
     const cmd = `python model/model.py --input "${filePath}" --type ${type}`;
