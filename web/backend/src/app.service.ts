@@ -1,78 +1,62 @@
 import { Injectable } from '@nestjs/common';
-import { exec } from 'child_process';
 import * as fs from 'fs';
-import { url } from 'inspector';
-import { execArgv } from 'process';
-import * as util from 'util';
+import * as net from 'net'
 import * as path from 'path'
-
-const execPromise = util.promisify(exec);
 
 @Injectable()
 export class AppService {
-  
+  getHello(): string {
+    return 'Hello World!';
+  }
+
   async runDetection(filePath: string, type: string): Promise<{
-      ndet: number | null;
-      image: string | null;
-      labelUrl: string | null;
-      message: string | null;
-      error: any;
-    }>{
+    ndet: number | null;
+    image: string | null;
+    labelUrl: string | null;
+  }>{
     // const absPath =  `D:\\code\\projectTest\\web\\test-express\\${filePath.replace(/\//g, '\\')}`;
-    console.log(filePath);
-    const cmd = `python model/model.py --input "${filePath}" --type ${type}`;
-    try{
-      const  { stdout } = await execPromise(cmd);
-      
-      fs.unlink(filePath, err => {
-        if (err) console.error(`Failed to delete temp file: ${err}`);
+    return new Promise((resolve, reject) => {
+      const client = new net.Socket();
+
+      client.connect(8888, "127.0.0.1", () => {
+        const payload = JSON.stringify({imagePath: filePath, type});
+        client.write(payload);
       });
 
-      console.log(filePath);
+      client.on('data', (data) => {
+        try{
+          const result = JSON.parse(data.toString());
+          if(result.error){
+            reject(result.error);
+            return;
+          }
 
-      const resultLines = stdout.trim().split('\n');
-  
-      const labelLine = resultLines.find(line => line.startsWith('Label: '));
-      const urlLine = resultLines.find(line => line.startsWith('Save: '));
-      const numLine = resultLines.find(line => line.startsWith('Num: '));
-  
-      const labelUrl = labelLine ? labelLine.replace("Label: ", "").replace(/\\/g, "/") : null;
-      const imageUrl = urlLine ? urlLine.replace("Save: ", "").replace(/\\/g, "/") : null;
-      const ndet: number = numLine ? parseInt(numLine.replace("Num: ", "")) : 0;
-      // console.log(`Detect: ${imageUrl}, Num: ${ndet}`)
+          fs.unlink(filePath, err => {
+            if (err) console.error(`Failed to delete temp file: ${err}`);
+          });
 
-      const out_path = imageUrl ? path.join(path.resolve(__dirname, '..'), imageUrl?.trim()) : '';
+          const imagePath = path.join(path.resolve(__dirname, '..'), result.imagePath);
+          const buffer = fs.readFileSync(imagePath);
+          const base64 = buffer.toString('base64');
+          const ext = path.extname(imagePath).toLowerCase();
+          const mime = ext === '.png' ? 'image/png' : 'image/jpeg';
 
-      console.log(out_path);
+          resolve({
+            ndet: result.ndet,
+            image: `data:${mime};base64,${base64}`,
+            labelUrl: result.labelPath,
+          });
 
-      if(!out_path || !fs.existsSync(out_path)){
-        throw new Error("Ảnh không tồn tại");
-      }
+        }catch(err){
+          reject(err);
+        }finally {
+          client.destroy();
+        }
+      });
 
-
-      const buffer = fs.readFileSync(out_path);
-      const base64 = buffer.toString('base64');
-      const ext = path.extname(out_path).toLowerCase();
-
-      const mime = ext === '.png' ? 'image/png' : 'image/jpeg';
-
-      return {
-        ndet: ndet,
-        image: `data:${mime};base64,${base64}`,
-        labelUrl,
-        message: 'done',
-        error: null
-      };
-      
-    } catch(error){
-      console.error("Lỗi xử lý: ", error);
-      return {
-        ndet: null,
-        image: null,
-        labelUrl: null,
-        message: 'lỗi xử lý ảnh',
-        error
-      };
-    }
+      client.on('error', (err) => {
+        reject(`Socket error: ${err}`);
+      });
+    });
   }
 }

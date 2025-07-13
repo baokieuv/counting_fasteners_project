@@ -12,8 +12,10 @@ export default function Home() {
 
   const handleSubmit = async (e : React.FormEvent) => {
     e.preventDefault();
+    // setImageUrl("/washer_noun_002_40578.jpg");
+    // setNdet(1);
     if (!image){
-      setError('Chưa có ảnh');
+      setError('There is no image');
       return;
     }
 
@@ -28,12 +30,9 @@ export default function Home() {
       });
 
       const res_data = await res.json();
-
       if(!res.ok) throw new Error(res_data.message || 'Upload failed!');
-      
-      console.log("done fetch");
 
-      setImageUrl(res_data.image); 
+      setImageUrl(res_data.image);
       setNdet(res_data.ndet);
       setError(null);
     }catch (err: any){
@@ -44,7 +43,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 flex flex-col items-center justify-between px-4 py-6">
       <header className="text-2xl font-bold text-blue-800 mb-4 text-center">
-        DEMO ĐẾM ĐỒ VẬT BẰNG YOLOV11
+        DEMO COUNTING OBJECT BY USING YOLOV11
       </header>
 
       <main className="w-full max-w-xl bg-white p-6 rounded-2xl shadow-xl">
@@ -66,8 +65,8 @@ export default function Home() {
             style={{color:'black'}}
           >
             <option value="washer">Washer</option>
-            <option value="dryer">Dryer</option>
-            <option value="dishwasher">Dishwasher</option>
+            <option value="screw">Screw</option>
+            <option value="nut">Nut</option>
           </select>
 
           <button
@@ -78,18 +77,18 @@ export default function Home() {
             Submit
           </button>
 
-          <div className="text-sm text-gray-500 text-center"><i>Các định dạng được hỗ trợ: PNG, JPG và JPEG.</i></div>
+          <div className="text-sm text-gray-500 text-center"><i>Supported formats: PNG, JPG, and JPEG.</i></div>
         </form>
 
         {imageUrl && (
           <div className="mt-8">
-            <h2 className="text-lg font-bold text-gray-700 mb-2">Kết quả nhận diện</h2>
+            <h2 className="text-lg font-bold text-gray-700 mb-2">Detect result</h2>
             <p className="text-gray-800 mb-4">
-              Nhận diện được <span className="font-bold text-blue-600">{ndet} vật thể</span>
+              Detect <span className="font-bold text-blue-600">{ndet} object(s)</span>
             </p>
             <img
               src={imageUrl}
-              alt="Kết quả"
+              alt="Result"
               className="w-full max-w-md rounded-xl shadow-md mx-auto"
             />
           </div>
@@ -98,9 +97,9 @@ export default function Home() {
 
       <footer className="text-sm text-center text-gray-600 mt-10">
         <p>&copy; KvB - 20225261. All rights reserved.</p>
-        <p>Liên hệ: <a href="mailto:example@email.com" className="text-blue-600">example@email.com</a></p>
+        <p>Contact: <a href="mailto:kieubao2k4@gmail.com" className="text-blue-600"> kieubao2k4@gmail.com</a></p>
         <div className="flex gap-3 justify-center mt-2 text-blue-600">
-          <a href="https://www.facebook.com" target="_blank"><i className="fab fa-facebook"></i> Facebook</a>
+          <a href="https://www.facebook.com/kieu.bao.839596" target="_blank"><i className="fab fa-facebook"></i> Facebook</a>
           <a href="https://twitter.com" target="_blank"><i className="fab fa-twitter"></i> Twitter</a>
           <a href="https://www.instagram.com" target="_blank"><i className="fab fa-instagram"></i> Instagram</a>
         </div>
