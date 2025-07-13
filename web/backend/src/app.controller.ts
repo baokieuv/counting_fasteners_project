@@ -69,7 +69,7 @@ export class AppController {
         const content = fs.readFileSync(labelPath, 'utf-8');
         res.setHeader('Content-Type', 'text/plain');
         res.setHeader('Content-Disposition', `inline; filename="${path.basename(labelPath)}"`);
-        return res.send(content);
+        return res.status(HttpStatus.OK).send(content);
       } else {
         return res.status(HttpStatus.OK).json({
           success: true,
